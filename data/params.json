@@ -1,0 +1,36 @@
+{
+  "goodVibes": {
+    "passions": [
+      "Hot Yoga",
+      "Gym",
+      "Wine",
+      "Ecology",
+      "Table tennis",
+      "Travel",
+      "Volunteering",
+      "Music",
+      "Comedy",
+      "Netflix",
+      "Twitch",
+      "Nature",
+      "Museum",
+      "Art",
+      "Cooking",
+      "Sports",
+      "Road trips"
+    ],
+    "desc": ["Cocktails", "Coffee", "Non-smoker"]
+  },
+  "badVibes": {
+    "passions": [
+      "Self Care",
+      "Manga",
+      "TikTok",
+      "Politics",
+      "Anime",
+      "Tattoos",
+      "Shopping"
+    ],
+    "desc": ["Smoker"]
+  }
+}
