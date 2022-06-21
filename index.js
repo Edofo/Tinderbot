@@ -1,6 +1,8 @@
 import fetch from "node-fetch";
 import 'dotenv/config' 
 
+import fs from 'fs'
+
 const goodVibes = {
     passions: [
         'Hot Yoga',
@@ -66,18 +68,13 @@ const fetchCore = async() => {
                 }
 
                 const badPassions = []
-                
-                x.experiment_info.user_interests.selected_interests.map((el) => {
-                    badVibes.passions.map((y) => el.name === y && badPassions.push(y))
-                })
-
-                
                 const goodPassions = []
                 
                 x.experiment_info.user_interests.selected_interests.map((el) => {
+                    badVibes.passions.map((y) => el.name === y && badPassions.push(y))
                     goodVibes.passions.map((y) => el.name === y && goodPassions.push(y))
                 })
-                
+               
                 if(x.user.selected_descriptors === undefined) {
                     if(goodPassions.length > 0) {
                         likeOrDislike(x, 'like', data.data.results)
@@ -89,6 +86,7 @@ const fetchCore = async() => {
 
                 x.user.selected_descriptors.map((el) => {
                     badVibes.desc.map((y) => el.choice_selections[0].name === y && badPassions.push(y))
+                    goodVibes.desc.map((y) => el.choice_selections[0].name === y && goodPassions.push(y))
                 })
 
                 if(badPassions.length > 0) {
@@ -136,10 +134,24 @@ const likeOrDislike = async(el, like, data) => {
     
             if(dataFetch.status === 200) {
                 console.log(el.user.name, like)
+                addUser(el.user)
             }
             
         }, (timer * 1000))
 
+
+    } catch(err) {
+        throw err
+    }
+}
+
+const addUser = async(content) => {
+    try {
+
+        fs.writeFile('./data/user_swipe.json', JSON.stringify(content), (err) => {
+            if (err) return console.log(err);
+
+        })
 
     } catch(err) {
         throw err
