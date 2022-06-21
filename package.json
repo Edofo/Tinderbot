@@ -1,11 +1,11 @@
 {
   "name": "tinderbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "TinderBot By Edofo",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon --experimental-json-modules index.js"
   },
   "author": "",
   "license": "ISC",

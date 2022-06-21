@@ -9,5 +9,11 @@ html
     title #{title} | TinderBot
     link(rel="stylesheet" href="/style.css")
   body
+    header.NavButtons
+        a(href="/user") Profiles vues
+        
+        a(href="/likes") Likes
+        a(href="/dislikes") Dislikes
+
     div#root
-      block layout-content
+        block layout-content

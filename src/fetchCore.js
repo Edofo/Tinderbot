@@ -1,11 +1,24 @@
 import fetch from "node-fetch";
+import fs from "fs";
 
-import likeOrDislike from "./likeOrDislike"
-import file from "../data/params.json";
+const file = "/data/user_swipe.json";
+
+import likeOrDislike from "./likeOrDislike.js"
+import params from "../data/params.json";
+import addUser from "./addUser.js";
 
 
-const badVibes = file.badVibes
-const goodVibes = file.goodVibes
+const badVibes = params.badVibes
+const goodVibes = params.goodVibes
+
+let count = 0
+
+let user = []
+
+const handleLikeDislike = (x, like, data, count) => {
+    likeOrDislike(x, like, data, count)
+    user.push({user: x.user, like: like})
+}
 
 const fetchCore = async() => {
     try {
@@ -20,10 +33,12 @@ const fetchCore = async() => {
 
         if(data.meta.status === 200) {
 
-            data.data.results.map(async(x) => {
+            count = count + data?.data?.results?.length
+
+            await data?.data?.results?.map(async(x) => {
 
                 if(x.experiment_info === undefined) {
-                    likeOrDislike(x, 'pass', data.data.results)
+                    handleLikeDislike(x, 'pass', data.data.results, count)
                     return
                 }
 
@@ -36,10 +51,10 @@ const fetchCore = async() => {
                 })
                
                 if(x.user.selected_descriptors === undefined) {
-                    if(goodPassions.length > 0) {
-                        likeOrDislike(x, 'like', data.data.results)
+                    if(goodPassions.length > 0 || badPassions.length === 0) {
+                        handleLikeDislike(x, 'like', data.data.results, count)
                     } else {
-                        likeOrDislike(x, 'pass', data.data.results)
+                        handleLikeDislike(x, 'pass', data.data.results, count)
                     }
                     return
                 }
@@ -50,13 +65,37 @@ const fetchCore = async() => {
                 })
 
                 if(badPassions.length > 0) {
-                    likeOrDislike(x, 'pass', data.data.results)
+                    handleLikeDislike(x, 'pass', data.data.results, count)
                     return
                 }
 
-                likeOrDislike(x, 'like', data.data.results)
+                handleLikeDislike(x, 'like', data.data.results, count)
 
             })
+
+            if(user.length === data?.data?.results?.length) {
+
+                setTimeout(async() => {
+    
+                    const content = await JSON.parse(fs.readFileSync(process.cwd() + file , { encoding: "utf8" }))
+                    const tab = content
+
+                    let countAdd = 0
+
+                    user?.map(async(x) => {
+                        const template = await addUser(x.user, x.like)
+                        tab.push(template)
+                        countAdd = countAdd + 1
+                        if(countAdd === user.length) {
+                            fs.writeFile(process.cwd() + file, JSON.stringify(tab), (err) => {
+                                if (err) return console.log(err);
+                            });
+                        }
+                    })
+                    
+                }, 80000)
+                
+            }
 
         }
 

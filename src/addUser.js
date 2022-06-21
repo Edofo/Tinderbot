@@ -1,10 +1,6 @@
-import fs from "fs";
-import util from 'util';
-
-const file = "/data/user_swipe.json";
-
 const addUser = async (user, like) => {
   try {
+
     const template = {
       _id: user._id,
       isLike: like === "like" ? true : false,
@@ -42,14 +38,7 @@ const addUser = async (user, like) => {
       template.selected_descriptors.push(templateDesc);
     });
 
-    let content = JSON.parse(fs.readFileSync(process.cwd() + file , { encoding: "utf8" }))
-    content.push(template)
-
-    console.log(content);
-
-    fs.writeFile(process.cwd() + file, JSON.stringify(content), (err) => {
-      if (err) return console.log(err);
-    });
+    return template
 
   } catch (err) {
     throw err;

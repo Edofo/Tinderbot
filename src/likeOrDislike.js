@@ -1,41 +1,28 @@
 import fetch from "node-fetch";
 
-const likeOrDislike = async(el, like, data) => {
+let i = 0
+
+const likeOrDislike = async(el, like, data, count) => {
     try {
         
-        const timer = Math.random() * ((i + 7 + 60) - (i + 7)) + (i + 7)
+        const timer = Math.random() * ((i * 2 + 80) - (i * 2)) + (i * 2)
 
         setTimeout(async() => {
 
-            // let dataFetch = await fetch(`https://api.gotinder.com/${like}/${el.user._id}`, {
-            //     headers: {
-            //         "x-auth-token": process.env.TOKEN
-            //     }
-            // })
+            let dataFetch = await fetch(`https://api.gotinder.com/${like}/${el.user._id}`, {
+                headers: {
+                    "x-auth-token": process.env.TOKEN
+                }
+            })
     
-            // dataFetch = await dataFetch.json()
-
+            dataFetch = await dataFetch.json()
             
             i = i + 1
-            count = count + 1
-            console.log(`Fait : ${i} personnes |`, `Restant : ${data.length} |`, `Total : ${count}`)
-            if(i === 1) {
-                addUser(el.user, like)
-            }
-    
-            if(data.length === i) {
-               i = 0
+            console.log(`Fait : ${i} personnes |`, `Restant : ${data.length - i} |`, `Total : ${count}`)
 
-            //    if(count < 500) {
-            //        main()
-            //    }
+            if(dataFetch.status === 200) {
+                console.log(el.user.name, like)
             }
-    
-            // if(dataFetch.status === 200) {
-            //     console.log(el.user.name, like)
-            //     addUser(el.user)
-            // }
-
             
         }, (timer * 1000))
 

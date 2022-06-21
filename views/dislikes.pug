@@ -1,0 +1,29 @@
+extends layout
+
+block layout-content
+    div.View
+        h1.Banner TinderBot by Edofo
+        div.AllProfil
+            each val in data
+                div.card
+                    img(src=val.photos[0].url)
+                    div.info
+                        h2= val.name
+                        p= val.bio
+                        hr
+                        div.moreInfo
+                            p Naissance : !{val.date}
+                            div
+                                p Ecoles :
+                                ul 
+                                    each x in val.schools
+                                        li= x.name
+                            div
+                                p Informations :
+                                each x in val.selected_descriptors
+                                    p= x.name
+                                    ul
+                                        each y in x.choice_selections
+                                            li= y.name
+            else
+                h2 There are no values
