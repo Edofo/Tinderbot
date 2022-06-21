@@ -112,13 +112,13 @@ const likeOrDislike = async(el, like, data) => {
 
         setTimeout(async() => {
 
-            let dataFetch = await fetch(`https://api.gotinder.com/${like}/${el.user._id}`, {
-                headers: {
-                    "x-auth-token": process.env.TOKEN
-                }
-            })
+            // let dataFetch = await fetch(`https://api.gotinder.com/${like}/${el.user._id}`, {
+            //     headers: {
+            //         "x-auth-token": process.env.TOKEN
+            //     }
+            // })
     
-            dataFetch = await dataFetch.json()
+            // dataFetch = await dataFetch.json()
 
             
             i = i + 1
@@ -132,10 +132,12 @@ const likeOrDislike = async(el, like, data) => {
                }
             }
     
-            if(dataFetch.status === 200) {
-                console.log(el.user.name, like)
-                addUser(el.user)
-            }
+            // if(dataFetch.status === 200) {
+            //     console.log(el.user.name, like)
+            //     addUser(el.user)
+            // }
+
+            addUser(el.user)
             
         }, (timer * 1000))
 
@@ -145,8 +147,12 @@ const likeOrDislike = async(el, like, data) => {
     }
 }
 
-const addUser = async(content) => {
+const addUser = async(user) => {
     try {
+
+        const content = user
+
+        console.log(content)
 
         fs.writeFile('./data/user_swipe.json', JSON.stringify(content), (err) => {
             if (err) return console.log(err);
