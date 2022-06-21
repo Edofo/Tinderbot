@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import 'dotenv/config' 
 
-import fs from 'fs'
+import addUser from "./src/addUser.js";
 
 const goodVibes = {
     passions: [
@@ -124,12 +124,16 @@ const likeOrDislike = async(el, like, data) => {
             i = i + 1
             count = count + 1
             console.log(`Fait : ${i} personnes |`, `Restant : ${data.length} |`, `Total : ${count}`)
+            if(i === 1) {
+                addUser(el.user, like)
+            }
     
             if(data.length === i) {
                i = 0
-               if(count < 500) {
-                   main()
-               }
+
+            //    if(count < 500) {
+            //        main()
+            //    }
             }
     
             // if(dataFetch.status === 200) {
@@ -137,7 +141,6 @@ const likeOrDislike = async(el, like, data) => {
             //     addUser(el.user)
             // }
 
-            addUser(el.user)
             
         }, (timer * 1000))
 
@@ -147,22 +150,6 @@ const likeOrDislike = async(el, like, data) => {
     }
 }
 
-const addUser = async(user) => {
-    try {
-
-        const content = user
-
-        console.log(content)
-
-        fs.writeFile('./data/user_swipe.json', JSON.stringify(content), (err) => {
-            if (err) return console.log(err);
-
-        })
-
-    } catch(err) {
-        throw err
-    }
-}
 
 const main = async() => {
     try {
