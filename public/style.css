@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-image: url("https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png");
+  background-size: cover;
+}
+
+.AllProfil {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+}
+
+.AllProfil .card {
+  position: relative;
+  max-width: 300px;
+  cursor: pointer;
+}
+
+.AllProfil .card img {
+  width: 100%;
+  /* height: 400px; */
+}
+
+.AllProfil .card .info {
+  position: absolute;
+  bottom: 0;
+  background-color: whitesmoke;
+  width: 100%;
+  padding: 15px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.AllProfil .card hr {
+  height: 3px;
+  width: 100%;
+  margin: 5px 0;
+  border: none;
+  background-color: red;
+}
+
+.AllProfil .card .moreInfo,
+.AllProfil .card hr {
+  display: none;
+}
+
+.AllProfil .card:hover .info {
+  height: 100%;
+}
+
+.AllProfil .card:hover .moreInfo,
+.AllProfil .card:hover hr {
+  display: block;
+}
